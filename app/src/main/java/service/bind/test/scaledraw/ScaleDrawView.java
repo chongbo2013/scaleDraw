@@ -37,6 +37,9 @@ public class ScaleDrawView extends View {
     }
     float radio=0f;
     final float radioMax=3f;
+
+    int ratate=0;
+    Matrix matrix = new Matrix();
     @Override
     protected void onDraw(Canvas canvas) {
         int with=getWidth();
@@ -49,18 +52,19 @@ public class ScaleDrawView extends View {
         canvas.drawRect(getPaddingLeft(),getPaddingTop(),getWidth()-getPaddingRight(),getHeight()-getPaddingBottom(),mPaint);
         int srcWidth=iamge.getWidth();
         int srcHeight=iamge.getHeight();
-
         int dstWidth= (int) (srcWidth*radio);
         int dstHeight= (int) (srcHeight*radio);
-        Matrix matrix = new Matrix();
+        matrix.reset();
         //
         matrix.preScale(radio,radio);
+        matrix.preRotate(ratate,srcWidth/2,srcHeight/2);
         matrix.postTranslate((with-dstWidth)/2,(height-dstHeight)/2);
 
         canvas.drawBitmap(iamge,matrix,null);
 
         canvas.restore();
         radio+=0.01f;
+        ratate+=2;
         invalidate();
     }
 
